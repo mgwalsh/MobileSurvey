@@ -2,8 +2,8 @@
 # M. Walsh, February 2016
 
 # install alluvial package
-# require(devtools)
-# install_github("mbojan/alluvial")
+require(devtools)
+install_github("mbojan/alluvial")
 
 require(downloader)
 require(alluvial)
@@ -14,7 +14,7 @@ dir.create("TZ_data", showWarnings=F)
 setwd("./TZ_data")
 
 # Download
-download("https://www.dropbox.com/s/5io90qtmwdzewmi/TZ_crop_scout.csv?dl=0", "TZ_crop_scout.csv", mode="wb")
+download("https://www.dropbox.com/s/5io90qtmwdzewmi/TZ_crop_scout.csv?raw=1", "TZ_crop_scout.csv", mode="wb")
 crps <- read.table("TZ_crop_scout.csv", header=T, sep=",")
 
 maize <- as.data.frame(table(crps$Maize, crps$Legume, crps$Root, crps$Other, crps$Livestock))
