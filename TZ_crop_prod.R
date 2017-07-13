@@ -60,8 +60,7 @@ RUE <- rq(RUE~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(RUE)
 
 # NPP residual (following median regression against MAP)
-NPM <- rq(I(NPPa*10000)~I(MAP-mean(MAP)), tau=0.5, data=crps)
-crps$NPPq <- predict(NPM, crps)
-crps$NPPr <- crps$NPPa*10000 - crps$NPPq
+NPM <- rq(I(NPPa*10000)~MAP, tau=0.5, data=crps)
+crps$NPPr <- crps$NPPa*10000 - predict(NPM, crps)
 NPPr <- rq(NPPr~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(NPPr)
