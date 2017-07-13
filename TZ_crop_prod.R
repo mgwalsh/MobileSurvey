@@ -38,11 +38,10 @@ crps <- cbind.data.frame(crps, crpsgrid)
 crps <- unique(na.omit(crps)) ## includes only unique & complete records
 
 # Quantile regressions ----------------------------------------------------
-NPPa <- rq(I(NPPa*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
-print(NPPa)
+# Net Primary Productivity (NPP, t/ha yr)
+NPP <- rq(I(NPP*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+print(NPP)
 
-NPPr <- rq(NPPr~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
-print(NPPr)
-
+# Rain Use Efficiency (NPP/MAP)
 RUE <- rq(RUE~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(RUE)
