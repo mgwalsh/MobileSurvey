@@ -1,5 +1,5 @@
-# Tanzania cropping system productivity indicators
-# M. Walsh, June 2017
+#' Tanzania cropping system productivity indicators
+#' M. Walsh, June 2017
 
 require(downloader)
 require(rgdal)
@@ -38,14 +38,14 @@ crps <- cbind.data.frame(crps, crpsgrid)
 crps <- unique(na.omit(crps)) ## includes only unique & complete records
 
 # Quantile regressions ----------------------------------------------------
-# Long-term Average Net Primary Productivity (NPP, t/ha yr)
+# Long-term Average Net Primary Productivity (NPP, kg/ha yr)
 # 2000-2014 MODIS MOD17A3 data (ftp://africagrids.net/500m/MOD17A3H)
-NPPa <- rq(I(NPPa*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+NPPa <- rq(I(NPPa*10000)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(NPPa)
 
 # Long-term interannual NPP standard deviation
 # 2000-2014 MODIS MOD17A3 data (ftp://africagrids.net/500m/MOD17A3H)
-NPPs <- rq(I(NPPs*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+NPPs <- rq(I(NPPs*10000)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(NPPs)
 
 # Mean Annual Precipitation (MAP, mm/yr)
@@ -58,3 +58,10 @@ print(MAP)
 crps$RUE <- (crps$NPPa*10000)/crps$MAP
 RUE <- rq(RUE~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(RUE)
+
+# NPP residual (following median regression against MAP)
+NPM <- rq(I(NPPa*10000)~I(MAP-mean(MAP)), tau=0.5, data=crps)
+crps$NPPq <- predict(NPM, crps)
+crps$NPPr <- crps$NPPa*10000 - crps$NPPq
+NPPr <- rq(NPPr~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+print(NPPr)
