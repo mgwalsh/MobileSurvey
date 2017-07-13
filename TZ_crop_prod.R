@@ -38,9 +38,13 @@ crps <- cbind.data.frame(crps, crpsgrid)
 crps <- unique(na.omit(crps)) ## includes only unique & complete records
 
 # Quantile regressions ----------------------------------------------------
-# Net Primary Productivity (NPP, t/ha yr)
-NPP <- rq(I(NPP*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
-print(NPP)
+# Long-term Average Net Primary Productivity (NPP, t/ha yr)
+NPPa <- rq(I(NPPa*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+print(NPPa)
+
+# Long-term interannual NPP standard deviation
+NPPs <- rq(I(NPPs*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+print(NPPs)
 
 # Mean Annual Rainfall (MAP, mm/yr)
 crps$MAP <- ifelse(crps$MAP==0, NA, crps$MAP)
