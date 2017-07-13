@@ -51,7 +51,7 @@ crps$MAP <- ifelse(crps$MAP==0, NA, crps$MAP)
 MAP <- rq(MAP~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(MAP)
 
-# Rain Use Efficiency (NPP/MAP)
+# Rain Use Efficiency (NPPa/MAP)
 crps$RUE <- (crps$NPPa*10000)/crps$MAP
 RUE <- rq(RUE~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(RUE)
