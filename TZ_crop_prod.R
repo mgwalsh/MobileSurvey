@@ -39,14 +39,17 @@ crps <- unique(na.omit(crps)) ## includes only unique & complete records
 
 # Quantile regressions ----------------------------------------------------
 # Long-term Average Net Primary Productivity (NPP, t/ha yr)
+# 2000-2014 MODIS MOD17A3 data (ftp://africagrids.net/500m/MOD17A3H)
 NPPa <- rq(I(NPPa*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(NPPa)
 
 # Long-term interannual NPP standard deviation
+# 2000-2014 MODIS MOD17A3 data (ftp://africagrids.net/500m/MOD17A3H)
 NPPs <- rq(I(NPPs*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(NPPs)
 
-# Mean Annual Rainfall (MAP, mm/yr)
+# Mean Annual Precipitation (MAP, mm/yr)
+# 2000-2014 CHIRPS data (ftp://africagrids.net/5000m/CHIRPS/Annual/sum/)
 crps$MAP <- ifelse(crps$MAP==0, NA, crps$MAP)
 MAP <- rq(MAP~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(MAP)
