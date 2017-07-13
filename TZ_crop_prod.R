@@ -42,6 +42,12 @@ crps <- unique(na.omit(crps)) ## includes only unique & complete records
 NPP <- rq(I(NPP*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(NPP)
 
+# Mean Annual Rainfall (MAP, mm/yr)
+crps$MAP <- ifelse(crps$MAP==0, NA, crps$MAP)
+MAP <- rq(MAP~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+print(MAP)
+
 # Rain Use Efficiency (NPP/MAP)
+crps$RUE <- (crps$NPPa*10000)/crps$MAP
 RUE <- rq(RUE~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
 print(RUE)
