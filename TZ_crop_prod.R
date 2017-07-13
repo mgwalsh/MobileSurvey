@@ -4,6 +4,7 @@
 require(downloader)
 require(rgdal)
 require(raster)
+require(quantreg)
 
 # Data setup --------------------------------------------------------------
 # Create a data folder in  your current working directory
@@ -35,3 +36,13 @@ crpsgrid <- extract(grids, crps)
 crps <- as.data.frame(crps)
 crps <- cbind.data.frame(crps, crpsgrid)
 crps <- unique(na.omit(crps)) ## includes only unique & complete records
+
+# Quantile regressions ----------------------------------------------------
+NPPa <- rq(I(NPPa*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+print(NPPa)
+
+NPPr <- rq(I(NPPr*10)~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+print(NPPr)
+
+RUE <- rq(RUE~MZP+SGP+LGP+RCP+OCP+LVS, tau=c(0.10,0.5,0.9), data=crps)
+print(RUE)
