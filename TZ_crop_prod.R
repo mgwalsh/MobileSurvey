@@ -17,7 +17,7 @@ download("https://www.dropbox.com/s/vz6cxhsdrkznmkm/TZ_maize_system.csv.zip?raw=
 unzip("TZ_maize_system.csv.zip", overwrite=T)
 crps <- read.table("TZ_maize_system.csv", header=T, sep=",")
 
-# Productivity grids (NPP parameters & RUE)
+# Productivity grids
 download("https://www.dropbox.com/s/hrnkbpkabt3a5kj/TZ_npp.zip?raw=1", "TZ_npp.zip", mode="wb")
 unzip("TZ_npp.zip", overwrite=T)
 glist <- list.files(pattern="tif", full.names=T)
