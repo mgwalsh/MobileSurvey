@@ -192,7 +192,7 @@ plot(cp_eval, 'ROC') ## plot ROC curve
 
 # Generate cropland mask --------------------------------------------------
 t <- threshold(cp_eval) ## calculate thresholds based on ROC
-r <- matrix(c(0, t[,2], 0, t[,2], 1, 1), ncol=3, byrow=TRUE) ## set threshold value <spec_sens>
+r <- matrix(c(0, t[,4], 0, t[,4], 1, 1), ncol=3, byrow=TRUE) ## set threshold value <prevalence>
 mask <- reclassify(1-cpst.pred, r) ## reclassify stacked predictions
 plot(mask, axes=F)
 
