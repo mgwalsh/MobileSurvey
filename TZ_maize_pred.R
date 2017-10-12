@@ -184,6 +184,7 @@ stopCluster(mc)
 # Receiver-operator characteristics ---------------------------------------
 require(dismo)
 
+# validation-set ROC
 cp_pre <- predict(CP.st, gf_val, type="prob")
 cp_val <- cbind(cp_val, cp_pre)
 cpp <- subset(cp_val, cp_val=="Y", select=c(Y))
