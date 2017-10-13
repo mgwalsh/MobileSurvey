@@ -198,6 +198,7 @@ coordinates(msdat) <- ~x+y
 projection(msdat) <- projection(preds)
 mspred <- extract(preds, msdat)
 mspred <- as.data.frame(cbind(msdat, mspred))
+write.csv(msdat, "./Results/TZ_MZP_pred.csv", row.names = FALSE) ## write dataframe
 
 # stacking model validation labels and features
 cp_all <- mspred$MZP ## subset validation labels
