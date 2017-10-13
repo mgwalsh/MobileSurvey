@@ -200,11 +200,11 @@ mspred <- extract(preds, msdat)
 mspred <- as.data.frame(cbind(msdat, mspred))
 write.csv(msdat, "./Results/TZ_MZP_pred.csv", row.names = FALSE) ## write dataframe
 
-# stacking model validation labels and features
+# stacking model labels and features
 cp_all <- mspred$MZP ## subset validation labels
 gf_all <- mspred[,46:49] ## subset validation features
 
-# ROC
+# ROC calculation
 cp_pre <- predict(CP.st, gf_all, type="prob")
 cp_all <- cbind(cp_all, cp_pre)
 cpp <- subset(cp_all, cp_all=="Y", select=c(Y))
