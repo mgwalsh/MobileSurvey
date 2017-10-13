@@ -192,8 +192,27 @@ cpa <- subset(cp_val, cp_val=="N", select=c(Y))
 cp_eval <- evaluate(p=cpp[,1], a=cpa[,1]) ## calculate ROC on test set
 plot(cp_eval, 'ROC') ## plot ROC curve
 
+# complete-set ROC
+# extract model predictions
+coordinates(msdat) <- ~x+y
+projection(msdat) <- projection(preds)
+mspred <- extract(preds, msdat)
+mspred <- as.data.frame(cbind(msdat, mspred))
+
+# stacking model validation labels and features
+cp_all <- mspred$MZP ## subset validation labels
+gf_all <- mspred[,46:49] ## subset validation features
+
+# ROC
+cp_pre <- predict(CP.st, gf_all, type="prob")
+cp_all <- cbind(cp_all, cp_pre)
+cpp <- subset(cp_all, cp_all=="Y", select=c(Y))
+cpa <- subset(cp_val, cp_all=="N", select=c(Y))
+cp_eall <- evaluate(p=cpp[,1], a=cpa[,1]) ## calculate ROC on test set
+plot(cp_eall, 'ROC') ## plot ROC curve
+
 # Generate cropland mask --------------------------------------------------
-t <- threshold(cp_eval) ## calculate thresholds based on ROC
+t <- threshold(cp_eval) ## calculate thresholds based on validation ROC
 r <- matrix(c(0, t[,4], 0, t[,4], 1, 1), ncol=3, byrow=TRUE) ## set threshold value <prevalence>
 mask <- reclassify(1-cpst.pred, r) ## reclassify stacked predictions
 plot(mask, axes=F)
