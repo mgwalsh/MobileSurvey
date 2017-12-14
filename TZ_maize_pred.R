@@ -26,7 +26,7 @@ ms_val <- msdat[-msIndex,]
 cp_cal <- ms_cal$MZP ## Maize present? (Y/N)
 
 # Raster calibration features
-gf_cal <- ms_cal[,12:45] ## grid covariates
+gf_cal <- ms_cal[,12:52] ## grid covariates
 
 # Random forest <randomForest> --------------------------------------------
 require(randomForest)
@@ -153,7 +153,7 @@ mspred <- as.data.frame(cbind(ms_val, mspred))
 
 # stacking model validation labels and features
 cp_val <- mspred$MZP ## subset validation labels
-gf_val <- mspred[,46:49] ## subset validation features
+gf_val <- mspred[,53:56] ## subset validation features
 
 # Model stacking ----------------------------------------------------------
 # start doParallel to parallelize model fitting
@@ -202,7 +202,7 @@ write.csv(msdat, "./Results/TZ_MZP_pred.csv", row.names = FALSE) ## write datafr
 
 # stacking model labels and features
 cp_all <- mspred$MZP ## subset validation labels
-gf_all <- mspred[,46:49] ## subset validation features
+gf_all <- mspred[,53:56] ## subset validation features
 
 # ROC calculation
 cp_pre <- predict(CP.st, gf_all, type="prob")
