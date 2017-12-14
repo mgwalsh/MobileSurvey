@@ -222,3 +222,23 @@ plot(mask, axes=F)
 cppreds <- stack(preds, 1-cpst.pred, mask)
 names(cppreds) <- c("cprf","cpgb","cpnn","cprr","cpst","cpmk")
 writeRaster(cppreds, filename="./Results/TZ_mzpreds_2017.tif", datatype="FLT4S", options="INTERLEAVE=BAND", overwrite=T)
+
+# Prediction map widget ---------------------------------------------------
+require(leaflet)
+require(htmlwidgets)
+
+# ensemble prediction map 
+pred <- 1-cpst.pred ## MobileSurvey ensemble probability
+
+# set color pallet
+pal <- colorBin("Greens", domain = 0:1) 
+
+# render map
+w <- leaflet() %>% 
+  addProviderTiles(providers$OpenStreetMap.Mapnik) %>%
+  addRasterImage(pred, colors = pal, opacity = 0.5) %>%
+  addLegend(pal = pal, values = values(pred), title = "Maize prob")
+w ## plot widget 
+
+# save widget
+saveWidget(w, 'TZ_MZ_prob.html', selfcontained = T)
