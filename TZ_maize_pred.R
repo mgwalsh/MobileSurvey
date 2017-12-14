@@ -2,11 +2,13 @@
 # M. Walsh, September 2017
 
 # Required packages
-# install.packages(c("caret","plyr","doParallel")), dependencies=TRUE)
+# install.packages(c("caret","plyr","doParallel","leaflet","htmwidgets")), dependencies=TRUE)
 suppressPackageStartupMessages({
   require(caret)
   require(plyr)
   require(doParallel)
+  require(leaflet)
+  require(htmlwidgets)
 })
 
 # Data setup --------------------------------------------------------------
@@ -224,9 +226,6 @@ names(cppreds) <- c("cprf","cpgb","cpnn","cprr","cpst","cpmk")
 writeRaster(cppreds, filename="./Results/TZ_mzpreds_2017.tif", datatype="FLT4S", options="INTERLEAVE=BAND", overwrite=T)
 
 # Prediction map widget ---------------------------------------------------
-require(leaflet)
-require(htmlwidgets)
-
 # ensemble prediction map 
 pred <- 1-cpst.pred ## MobileSurvey ensemble probability
 
