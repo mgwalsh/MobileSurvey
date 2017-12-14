@@ -2,11 +2,13 @@
 # M. Walsh, October 2017
 
 # Required packages
-# install.packages(c("downloader","rgdal","raster")), dependencies=TRUE)
+# install.packages(c("downloader","rgdal","raster","leaflet","htmlwidgets")), dependencies=TRUE)
 suppressPackageStartupMessages({
   require(downloader)
   require(rgdal)
   require(raster)
+  require(leaflet)
+  require(htmlwidgets)
 })
 
 # Data downloads -----------------------------------------------------------
@@ -30,6 +32,16 @@ unzip("TZ_GS_preds.zip", overwrite=T)
 # stack grids
 glist <- list.files(pattern="tif", full.names=T)
 grids <- stack(glist)
+
+# Geosurvey map widget ----------------------------------------------------
+# render map
+w <- leaflet() %>% 
+  addProviderTiles(providers$OpenStreetMap.Mapnik) %>%
+  addCircleMarkers(gsdat$lon, msos$lat, clusterOptions = markerClusterOptions())
+w ## plot widget 
+
+# save widget
+saveWidget(w, 'TZ_MS.html', selfcontained = T)
 
 # Data setup ---------------------------------------------------------------
 # project MobileSurvey coords to grid CRS
