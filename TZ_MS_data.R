@@ -37,7 +37,7 @@ grids <- stack(glist)
 # render map
 w <- leaflet() %>% 
   addProviderTiles(providers$OpenStreetMap.Mapnik) %>%
-  addCircleMarkers(gsdat$lon, msos$lat, clusterOptions = markerClusterOptions())
+  addCircleMarkers(msos$lon, msos$lat, clusterOptions = markerClusterOptions())
 w ## plot widget 
 
 # save widget
