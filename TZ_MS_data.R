@@ -33,7 +33,7 @@ unzip("TZ_GS_preds.zip", overwrite=T)
 glist <- list.files(pattern="tif", full.names=T)
 grids <- stack(glist)
 
-# Geosurvey map widget ----------------------------------------------------
+# MobileSurvey map widget --------------------------------------------------
 # render map
 w <- leaflet() %>% 
   addProviderTiles(providers$OpenStreetMap.Mapnik) %>%
