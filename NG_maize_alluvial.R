@@ -14,8 +14,9 @@ dir.create("NG_data", showWarnings=F)
 setwd("./NG_data")
 
 # Download
-download("https://www.dropbox.com/s/jt913s924li8ruz/NG_crop_scout_0717.csv.zip?raw=1", "OCP_crop_scout.csv", mode="wb")
-crps <- read.table("OCP_crop_scout.csv", header=T, sep=",")
+download("https://www.dropbox.com/s/jt913s924li8ruz/NG_crop_scout_0717.csv.zip?raw=1", "NG_crop_scout_0717.csv.zip", mode="wb")
+unzip("NG_crop_scout_0717.csv.zip", overwrite=T)
+crps <- read.table("NG_crop_scout_0717.csv", header=T, sep=",")
 
 maize <- as.data.frame(table(crps$MZP, crps$SGP, crps$LGP, crps$RCP, crps$OCP, crps$LVS))
 colnames(maize) <- c("Maize","Sorghum","Legume","Root","Other","Livestock","Freq")
