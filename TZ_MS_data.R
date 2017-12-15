@@ -2,7 +2,7 @@
 # M. Walsh, October 2017
 
 # Required packages
-# install.packages(c("downloader","rgdal","raster","leaflet","htmlwidgets")), dependencies=TRUE)
+# install.packages(c("downloader","rgdal","raster","leaflet","htmlwidgets")), dependencies=T)
 suppressPackageStartupMessages({
   require(downloader)
   require(rgdal)
@@ -18,19 +18,19 @@ setwd("./TZ_MS250")
 
 # download MobileSurvey data
 download("https://www.dropbox.com/s/vz6cxhsdrkznmkm/TZ_maize_system.csv.zip?raw=1", "TZ_maize_system.csv.zip", mode="wb")
-unzip("TZ_maize_system.csv.zip", overwrite=T)
+unzip("TZ_maize_system.csv.zip", overwrite = T)
 msos <- read.table("TZ_maize_system.csv", header=T, sep=",")
 
-# download Tanzania Gtifs (note this is a big 750+ Mb download)
+# download Tanzania Gtifs (note this is a big 900+ Mb download)
 download("https://www.dropbox.com/s/pshrtvjf7navegu/TZ_250m_2017.zip?raw=1", "TZ_250m_2017.zip", mode="wb")
-unzip("TZ_250m_2017.zip", overwrite=T)
+unzip("TZ_250m_2017.zip", overwrite = T)
 
 # download Tanzania GeoSurvey predictions
 download("https://www.dropbox.com/s/3px2xh9l4a6b38g/TZ_GS_preds.zip?raw=1", "TZ_GS_preds.zip", mode="wb")
-unzip("TZ_GS_preds.zip", overwrite=T)
+unzip("TZ_GS_preds.zip", overwrite = T)
 
 # stack grids
-glist <- list.files(pattern="tif", full.names=T)
+glist <- list.files(pattern="tif", full.names = T)
 grids <- stack(glist)
 
 # MobileSurvey map widget --------------------------------------------------
@@ -59,4 +59,4 @@ msdat <- msdat[!duplicated(msdat), ] ## removes any duplicates
 
 # Write output file -------------------------------------------------------
 dir.create("Results", showWarnings=F)
-write.csv(msdat, "./Results/TZ_msdat.csv", row.names = FALSE)
+write.csv(msdat, "./Results/TZ_msdat.csv", row.names = F)
