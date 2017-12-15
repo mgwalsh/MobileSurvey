@@ -229,7 +229,7 @@ writeRaster(cppreds, filename="./Results/TZ_mzpreds_2017.tif", datatype="FLT4S",
 # ensemble prediction map 
 pred <- 1-cpst.pred ## MobileSurvey ensemble probability
 
-# set color pallet
+# set color pallette
 pal <- colorBin("Greens", domain = 0:1) 
 
 # render map
