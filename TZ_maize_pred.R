@@ -1,7 +1,7 @@
 # Stacked predictions of Tanzania maize cropland distribution
 # M. Walsh, September 2017
 
-# Required packages
+# Required packages -------------------------------------------------------
 # install.packages(c("caret","randomForest","gbm","nnet","glmnet","plyr","doParallel","dismo")), dependencies = T)
 suppressPackageStartupMessages({
   require(caret)
@@ -14,7 +14,7 @@ suppressPackageStartupMessages({
   require(dismo)
 })
 
-# Data setup --------------------------------------------------------------
+# Data setup -------------------------------------------------------------
 # Run this first: https://github.com/mgwalsh/MobileSurvey/blob/master/TZ_MS_data.R
 rm(list=setdiff(ls(), c("msdat","grids","glist"))) ## scrub extraneous objects in memory
 
