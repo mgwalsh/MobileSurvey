@@ -2,13 +2,14 @@
 # M. Walsh, September 2017
 
 # Required packages
-# install.packages(c("caret","plyr","doParallel","leaflet","htmwidgets")), dependencies=TRUE)
+# install.packages(c("caret","plyr","doParallel","leaflet","htmwidgets", "dismo")), dependencies=TRUE)
 suppressPackageStartupMessages({
   require(caret)
   require(plyr)
   require(doParallel)
   require(leaflet)
   require(htmlwidgets)
+  require(dismo)
 })
 
 # Data setup --------------------------------------------------------------
@@ -184,8 +185,6 @@ plot(1-cpst.pred, axes=F)
 stopCluster(mc)
 
 # Receiver-operator characteristics ---------------------------------------
-require(dismo)
-
 # validation-set ROC
 cp_pre <- predict(CP.st, gf_val, type="prob")
 cp_val <- cbind(cp_val, cp_pre)
