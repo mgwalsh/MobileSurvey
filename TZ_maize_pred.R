@@ -29,7 +29,7 @@ msIndex <- createDataPartition(msdat$MZP, p = 4/5, list = FALSE, times = 1)
 ms_cal <- msdat[ msIndex,]
 ms_val <- msdat[-msIndex,]
 
-# GeoSurvey calibration labels
+# MobileSurvey calibration labels
 cp_cal <- ms_cal$MZP ## Maize present? (Y/N)
 
 # Raster calibration features
