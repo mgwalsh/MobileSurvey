@@ -2,9 +2,13 @@
 # M. Walsh, September 2017
 
 # Required packages
-# install.packages(c("caret","plyr","doParallel","leaflet","htmwidgets", "dismo")), dependencies=TRUE)
+# install.packages(c("caret","randomForest","gbm","nnet","glmnet","plyr","doParallel","leaflet","htmwidgets", "dismo")), dependencies=TRUE)
 suppressPackageStartupMessages({
   require(caret)
+  require(randomForest)
+  require(gbm)
+  require(nnet)
+  require(glmnet)
   require(plyr)
   require(doParallel)
   require(leaflet)
@@ -32,8 +36,6 @@ cp_cal <- ms_cal$MZP ## Maize present? (Y/N)
 gf_cal <- ms_cal[,12:52] ## grid covariates
 
 # Random forest <randomForest> --------------------------------------------
-require(randomForest)
-
 # start doParallel to parallelize model fitting
 mc <- makeCluster(detectCores())
 registerDoParallel(mc)
@@ -62,8 +64,6 @@ cprf.pred <- predict(grids, CP.rf, type = "prob") ## spatial predictions
 stopCluster(mc)
 
 # Generalized boosting <gbm> ----------------------------------------------
-require(gbm)
-
 # start doParallel to parallelize model fitting
 mc <- makeCluster(detectCores())
 registerDoParallel(mc)
@@ -89,8 +89,6 @@ cpgb.pred <- predict(grids, CP.gb, type = "prob") ## spatial predictions
 stopCluster(mc)
 
 # Neural network <nnet> ---------------------------------------------------
-require(nnet)
-
 # start doParallel to parallelize model fitting
 mc <- makeCluster(detectCores())
 registerDoParallel(mc)
@@ -116,8 +114,6 @@ cpnn.pred <- predict(grids, CP.nn, type = "prob") ## spatial predictions
 stopCluster(mc)
 
 # Regularized regression <glmnet> -----------------------------------------
-require(glmnet)
-
 # start doParallel to parallelize model fitting
 mc <- makeCluster(detectCores())
 registerDoParallel(mc)
