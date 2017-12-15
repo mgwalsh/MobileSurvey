@@ -2,7 +2,7 @@
 # M. Walsh, September 2017
 
 # Required packages
-# install.packages(c("caret","randomForest","gbm","nnet","glmnet","plyr","doParallel","leaflet","htmwidgets", "dismo")), dependencies = T)
+# install.packages(c("caret","randomForest","gbm","nnet","glmnet","plyr","doParallel","dismo")), dependencies = T)
 suppressPackageStartupMessages({
   require(caret)
   require(randomForest)
