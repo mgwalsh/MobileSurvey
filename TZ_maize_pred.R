@@ -11,8 +11,6 @@ suppressPackageStartupMessages({
   require(glmnet)
   require(plyr)
   require(doParallel)
-  require(leaflet)
-  require(htmlwidgets)
   require(dismo)
 })
 
