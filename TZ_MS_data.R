@@ -51,7 +51,7 @@ msos <- cbind(msos, msos.proj)
 coordinates(msos) <- ~x+y
 projection(msos) <- projection(grids)
 
-# extract gridded variables at GeoSurvey locations
+# extract gridded variables at MobileSurvey locations
 msosgrid <- extract(grids, msos)
 msdat <- as.data.frame(cbind(msos, msosgrid)) 
 msdat <- na.omit(msdat) ## includes only complete cases
