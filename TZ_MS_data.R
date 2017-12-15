@@ -1,7 +1,7 @@
 # Tanzania MobileSurvey 250m resolution data setup 
 # M. Walsh, October 2017
 
-# Required packages
+# Required packages -------------------------------------------------------
 # install.packages(c("downloader","rgdal","raster","leaflet","htmlwidgets")), dependencies=T)
 suppressPackageStartupMessages({
   require(downloader)
