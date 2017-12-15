@@ -178,7 +178,7 @@ plot(1-cpst.pred, axes=F)
 
 stopCluster(mc)
 
-# Receiver-operator characteristics ---------------------------------------
+# Receiver-operator characteristics <dismo> -------------------------------
 # validation-set ROC
 cp_pre <- predict(CP.st, gf_val, type="prob")
 cp_val <- cbind(cp_val, cp_pre)
