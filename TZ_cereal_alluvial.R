@@ -19,7 +19,7 @@ unzip("TZ_cereal_system.csv.zip", overwrite=T)
 crps <- read.table("TZ_cereal_system.csv", header=T, sep=",")
 
 # Data setup --------------------------------------------------------------
-crps$CRP <- ifelse(crps$CCP == "Y" | crps$LCP =="Y" | crps$RCP == "Y" | crps$OCP == "Y", "Y", "N")
+crps$CRP <- ifelse(crps$CCP == "Y" | crps$LCP =="Y" | crps$RCP == "Y" | crps$OCP == "Y", "Y", "N") ## croplands
 
 # cropping systems partion
 crplnd <- as.data.frame(table(crps$CRP, crps$CCP, crps$LCP, crps$RCP, crps$OCP, crps$LVP))
@@ -33,7 +33,7 @@ colnames(cereal) <- c("Cereal","Maize","Sorghum","Rice","Legume","Root","Other",
 # cropland systems
 alluvial(crplnd[,1:6], freq=crplnd$Freq, border=NA,
          hide = crplnd$Freq < quantile(crplnd$Freq, 0.90),
-         col=ifelse(crplnd$Cropland == "Y", "red", "gray"))
+         col=ifelse(crplnd$Cereal == "Y", "red", "gray"))
 
 # cereal systems
 alluvial(cereal[,1:8], freq=cereal$Freq, border=NA,
