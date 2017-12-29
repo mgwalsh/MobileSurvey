@@ -1,4 +1,4 @@
-# Alluvial diagram of TZ cereal cropping systems
+# Alluvial diagrams of TZ cropping & cereal systems
 # M. Walsh, December 2017
 
 # install alluvial package
@@ -20,22 +20,24 @@ crps <- read.table("TZ_cereal_system.csv", header=T, sep=",")
 
 # Data setup --------------------------------------------------------------
 crps$CRP <- ifelse(crps$CCP == "Y" | crps$LCP =="Y" | crps$RCP == "Y" | crps$OCP == "Y", "Y", "N") ## croplands
+crop <- crps[ which(crps$CRP == "Y"),] ## cropping systems subset
+cers <- crps[ which(crps$CCP == "Y"),] ## cereal systems subset
 
-# cropland partion
-crplnd <- as.data.frame(table(crps$CRP, crps$CCP, crps$LCP, crps$RCP, crps$OCP, crps$LVP))
-colnames(crplnd) <- c("Cropland","Cereal","Legume","Root","Other","Livestock","Freq")
+# cropping systems frequency table
+crplnd <- as.data.frame(table(crop$CCP, crop$LCP, crop$RCP, crop$OCP, crop$LVP))
+colnames(crplnd) <- c("Cereal","Legume","Root","Other","Livestock","Freq")
 
-# cereal systems partion
-cereal <- as.data.frame(table(crps$CCP, crps$MZP, crps$SGP, crps$RIP, crps$LCP, crps$RCP, crps$OCP, crps$LVP))
-colnames(cereal) <- c("Cereal","Maize","Sorghum","Rice","Legume","Root","Other","Livestock","Freq")
+# cereal systems frequency table
+cereal <- as.data.frame(table(cers$MZP, cers$SGP, cers$RIP, cers$LCP, cers$RCP, cers$OCP, cers$LVP))
+colnames(cereal) <- c("Maize","Sorghum","Rice","Legume","Root","Other","Livestock","Freq")
 
 # <alluvial> diagram ------------------------------------------------------
 # main cropland systems
-alluvial(crplnd[,1:6], freq=crplnd$Freq, border=NA,
+alluvial(crplnd[,1:5], freq=crplnd$Freq, border=NA,
          hide = crplnd$Freq < quantile(crplnd$Freq, 0.9),
          col=ifelse(crplnd$Cereal == "Y", "red", "gray"))
 
-# cereal systems
-alluvial(cereal[,1:8], freq=cereal$Freq, border=NA,
+# cereal systems only
+alluvial(cereal[,1:7], freq=cereal$Freq, border=NA,
          hide = cereal$Freq < quantile(cereal$Freq, 0.9),
-         col=ifelse(cereal$Cereal == "Y", "red", "grey"))
+         col=ifelse(cereal$Maize == "Y", "red", "grey"))
