@@ -17,6 +17,8 @@ setwd("./TZ_data")
 download("https://www.dropbox.com/s/3q5i7km8ejpg1p6/TZ_cereal_system.csv.zip?raw=1", "TZ_cereal_system.csv.zip", mode="wb")
 unzip("TZ_cereal_system.csv.zip", overwrite=T)
 crps <- read.table("TZ_cereal_system.csv", header=T, sep=",")
+
+# Data setup --------------------------------------------------------------
 crps$CRP <- ifelse(crps$CCP == "Y" | crps$LCP =="Y" | crps$RCP == "Y" | crps$OCP == "Y", "Y", "N")
 crplnd <- as.data.frame(table(crps$CRP, crps$CCP, crps$LCP, crps$RCP, crps$OCP, crps$LVP))
 colnames(crplnd) <- c("Cropland","Cereal","Legume","Root","Other","Livestock","Freq")
