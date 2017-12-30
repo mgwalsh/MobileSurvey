@@ -34,10 +34,10 @@ colnames(cereal) <- c("Maize","Sorghum","Rice","Legume","Root","Other","Livestoc
 # <alluvial> diagram ------------------------------------------------------
 # main cropland systems
 alluvial(crplnd[,1:5], freq=crplnd$Freq, border=NA,
-         hide = crplnd$Freq < quantile(crplnd$Freq, 0.9),
+         hide = crplnd$Freq < quantile(crplnd$Freq, 0.5),
          col=ifelse(crplnd$Cereal == "Y", "red", "gray"))
 
 # cereal systems only
 alluvial(cereal[,1:7], freq=cereal$Freq, border=NA,
-         hide = cereal$Freq < quantile(cereal$Freq, 0.9),
+         hide = cereal$Freq < quantile(cereal$Freq, 0.5),
          col=ifelse(cereal$Maize == "Y", "red", "grey"))
