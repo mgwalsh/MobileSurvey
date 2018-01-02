@@ -34,7 +34,7 @@ colnames(cereal) <- c("Maize","Sorghum","Rice","Legume","Root","Other","Livestoc
 # <alluvial> diagram ------------------------------------------------------
 # main cropland systems
 alluvial(crplnd[,1:5], freq=crplnd$Freq, border=NA,
-         hide = crplnd$Freq < 100,
+         hide = crplnd$Freq < 500,
          col=ifelse(crplnd$Cereal == "Y", "red", "gray"))
 
 # cereal systems only
