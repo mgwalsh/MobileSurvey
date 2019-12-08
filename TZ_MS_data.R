@@ -45,23 +45,15 @@ msos <- cbind(gadm[ ,c(5,7,9)], msos)
 colnames(msos)[1:3] <- c("region","district","ward")
 
 # project MobileSurvey coords to grid CRS
-msgeos.proj <- as.data.frame(project(cbind(geos$lon, geos$lat), "+proj=laea +ellps=WGS84 +lon_0=20 +lat_0=5 +units=m +no_defs"))
+msos.proj <- as.data.frame(project(cbind(msos$lon, msos$lat), "+proj=laea +ellps=WGS84 +lon_0=20 +lat_0=5 +units=m +no_defs"))
 colnames(msos.proj) <- c("x","y")
 msos <- cbind(msos, msos.proj)
 coordinates(msos) <- ~x+y
 projection(msos) <- projection(grids)
 
-# extract gridded variables at GeoSurvey locations
-msosgrid <- extract(grids, msos)
-msdat <- as.data.frame(cbind(msos, msosgrid)) 
-# msdat$observer <- sub("@.*", "", as.character(gsdat$observer)) ## shortens observer ID's
-
 # extract gridded variables at MobileSurvey locations
 msosgrid <- extract(grids, msos)
 msdat <- as.data.frame(cbind(msos, msosgrid)) 
-msdat <- na.omit(msdat) ## includes only complete cases
-msdat <- msdat[!duplicated(msdat), ] ## removes any duplicates 
 
 # Write output file -------------------------------------------------------
-dir.create("Results", showWarnings=F)
 write.csv(msdat, "./Results/TZ_msdat.csv", row.names = F)
