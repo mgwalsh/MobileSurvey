@@ -55,5 +55,9 @@ projection(msos) <- projection(grids)
 msosgrid <- extract(grids, msos)
 msdat <- as.data.frame(cbind(msos, msosgrid)) 
 
-# Write output file -------------------------------------------------------
+# Write output files ------------------------------------------------------
 write.csv(msdat, "./Results/TZ_msdat.csv", row.names = F)
+csys <- as.data.frame(table(msdat$CEP, msdat$LEP, msdat$ROP, msdat$OCP, msdat$LSP))
+colnames(csys) <- c("Cereal","Legume","Root","Other","Livestock","Freq")
+
+
