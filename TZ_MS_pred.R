@@ -239,7 +239,6 @@ projection(msdat) <- projection(grids)
 mspre <- extract(mspreds, msdat)
 msout <- as.data.frame(cbind(msdat, mspre))
 msout$mzone <- ifelse(msout$mk == 1, "Y", "N")
-# confusionMatrix(data = msout$mzone, reference = msout$cep, positive = "Y")
 fname <- paste("./Results/","TZ_", labs, "_out.tif", sep = "")
 write.csv(msout, fname, row.names = F)
 
