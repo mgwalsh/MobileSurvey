@@ -233,12 +233,3 @@ names(mspreds) <- c("gl1","gl2","rf","gb","nn","st","mk")
 fname <- paste("./Results/","TZ_", labs, "_preds_2019.tif", sep = "")
 writeRaster(mspreds, filename=fname, datatype="FLT4S", options="INTERLEAVE=BAND", overwrite=T)
 
-# Write output data frame -------------------------------------------------
-coordinates(msdat) <- ~x+y
-projection(msdat) <- projection(grids)
-mspre <- extract(mspreds, msdat)
-msout <- as.data.frame(cbind(msdat, mspre))
-msout$mzone <- ifelse(msout$mk == 1, "Y", "N")
-fname <- paste("./Results/","TZ_", labs, "_out.tif", sep = "")
-write.csv(msout, fname, row.names = F)
-
