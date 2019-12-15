@@ -18,9 +18,9 @@ setwd("./TZ_MS250")
 dir.create("Results", showWarnings = F)
 
 # download MobileSurvey data
-download("https://osf.io/t6h97?raw=1", "TZ_crop_scout_2019.csv.zip", mode="wb")
-unzip("TZ_crop_scout_2019.csv.zip", overwrite = T)
-msos <- read.table("TZ_crop_scout_2019.csv", header=T, sep=",")
+download("https://osf.io/phu4b?raw=1", "TZ_msdat_2019.csv.zip", mode="wb")
+unzip("TZ_msdat_2019.csv.zip", overwrite = T)
+msdat <- read.table("TZ_msdat.csv", header=T, sep=",")
 
 # download GADM-L3 shapefile (courtesy: http://www.gadm.org)
 download("https://www.dropbox.com/s/bhefsc8u120uqwp/TZA_adm3.zip?raw=1", "TZA_adm3.zip", mode = "wb")
@@ -30,18 +30,16 @@ shape <- shapefile("TZA_adm3.shp")
 # download Grids (note this is a ~1Gb download)
 download("https://osf.io/ke5ya?raw=1", "TZ_250m_2019.zip", mode = "wb")
 unzip("TZ_250m_2019.zip", overwrite = T)
-download("https://osf.io/fdkz8?raw=1", "TZ_GS_preds.zip", mode = "wb")
-unzip("TZ_GS_preds.zip", overwrite = T)
 glist <- list.files(pattern="tif", full.names = T)
 grids <- stack(glist)
 
 # Data setup --------------------------------------------------------------
 # attach GADM-L3 admin unit names from shape
-coordinates(msos) <- ~lon+lat
-projection(msos) <- projection(shape)
-gadm <- msos %over% shape
-msos <- as.data.frame(msos)
-msos <- cbind(gadm[ ,c(5,7,9)], msos)
+coordinates(msdat) <- ~lon+lat
+projection(msdat) <- projection(shape)
+gadm <- msdat %over% shape
+msdat <- as.data.frame(msdat)
+msdat <- cbind(gadm[ ,c(5,7,9)], msdat)
 colnames(msos)[1:3] <- c("region","district","ward")
 
 # project MobileSurvey coords to grid CRS
