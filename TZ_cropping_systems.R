@@ -1,4 +1,4 @@
-# Tanzania GS/MS-L3 cropping systems models
+# Tanzania GS/MS-L3 cropping systems mixed models
 # M. Walsh, December 2019
 
 # install.packages(c("downloader","rgdal","raster","arm","dismo")), dependencies=T)
@@ -46,4 +46,6 @@ msos$score0 <- fitted(py0)
 py1 <- glmer(py~stprob+(stprob|ctype)+(1|region), family=binomial(link="logit"), data=msos)
 summary(py1)
 msos$score1 <- fitted(py1)
+
+# Write files -------------------------------------------------------------
 write.csv(msos, "./Results/msos_2019.csv", row.names=F)
