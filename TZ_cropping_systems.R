@@ -42,7 +42,7 @@ py0 <- glmer(py~stprob+(stprob|ctype), family=binomial(link="logit"), data=msos)
 summary(py0)
 msos$score0 <- fitted(py0)
 
-# Small Area Estimate model
+# Small Area Estimate (SAE) model
 py1 <- glmer(py~stprob+(stprob|ctype)+(1|region), family=binomial(link="logit"), data=msos)
 summary(py1)
 msos$score1 <- fitted(py1)
