@@ -20,40 +20,39 @@ dir.create("Results", showWarnings = F)
 # MobileSurvey data
 download("https://osf.io/t6h97/?raw=1", "TZ_crop_scout_2019.csv.zip", mode="wb")
 unzip("TZ_crop_scout_2019.csv.zip", overwrite=T)
-msos <- read.table("TZ_crop_scout_2019.csv", header=T, sep=",")
+msdat <- read.table("TZ_crop_scout_2019.csv", header=T, sep=",")
 
 # download GADM-L3 shapefile (courtesy: http://www.gadm.org)
 download("https://www.dropbox.com/s/bhefsc8u120uqwp/TZA_adm3.zip?raw=1", "TZA_adm3.zip", mode = "wb")
 unzip("TZA_adm3.zip", overwrite = T)
 shape <- shapefile("TZA_adm3.shp")
 
+# download GeoSurvey LCCS grids
+download("https://osf.io/tjfc3?raw=1", "TZ_LCCS_2020.zip", mode = "wb")
+unzip("TZ_LCCS_2020.zip", overwrite = T)
+glist <- list.files(pattern="tif", full.names = T)
+grids <- stack(glist)
+
 # Data setup --------------------------------------------------------------
 # attach GADM-L3 admin unit names from shape
-coordinates(msos) <- ~lon+lat
-projection(msos) <- projection(shape)
-gadm <- msos %over% shape
-msos <- as.data.frame(msos)
-msos <- cbind(gadm[ ,c(5,7,9)], msos)
-colnames(msos)[1:3] <- c("region","district","ward")
+coordinates(msdat) <- ~lon+lat
+projection(msdat) <- projection(shape)
+gadm <- msdat %over% shape
+msdat <- as.data.frame(msdat)
+msdat <- cbind(gadm[ ,c(5,7,9)], msdat)
+colnames(msdat)[1:3] <- c("region","district","ward")
 
-# Mixed models ------------------------------------------------------------
-# main model
-py0 <- glmer(py~stprob+(stprob|ctype), family=binomial(link="logit"), data=msos)
-summary(py0)
-msos$score0 <- fitted(py0)
+# project MobileSurvey coords to grid CRS
+msdat.proj <- as.data.frame(project(cbind(msdat$lon, msdat$lat), "+proj=laea +ellps=WGS84 +lon_0=20 +lat_0=5 +units=m +no_defs"))
+colnames(msdat.proj) <- c("x","y")
+msdat <- cbind(msdat, msdat.proj)
+coordinates(msdat) <- ~x+y
+projection(msdat) <- projection(grids)
 
-# Small Area Estimate (SAE) model
-py1 <- glmer(py~stprob+(stprob|ctype)+(1|region), family=binomial(link="logit"), data=msos)
-summary(py1)
-msos$score1 <- fitted(py1)
+# extract gridded variables at MobileSurvey locations
+msdatgrid <- extract(grids, msdat)
+msdat <- as.data.frame(cbind(msdat, msdatgrid)) 
 
-# Write files -------------------------------------------------------------
-write.csv(msos, "./Results/msos_2019.csv", row.names=F)
+# Write output files ------------------------------------------------------
+write.csv(msdat, "./Results/TZ_msdat.csv", row.names = F)
 
-# Receiver-operator characteristics ---------------------------------------
-p <- msos[ which(msos$ctype=="cep" & msos$py==1), ] ## substitute other crop types here (lep, rop ...)
-p <- p[,11]
-a <- msos[ which(msos$ctype=="cep" & msos$py==0), ] ## substitute other crop types here (lep, rop ...)
-a <- a[,11]
-e <- evaluate(p=p, a=a) ## calculate ROC's on entire MobileSurvey dataset
-plot(e, 'ROC') ## plot ROC curve
