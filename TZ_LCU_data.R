@@ -1,13 +1,11 @@
 # Tanzania GS/MS-L3 land cover/use (LCU) data
 # M. Walsh, June 2020
 
-# install.packages(c("downloader","rgdal","raster","arm","dismo")), dependencies=T)
+# install.packages(c("downloader","rgdal","raster")), dependencies=T)
 suppressPackageStartupMessages({
   require(downloader)
   require(rgdal)
   require(raster)
-  require(arm)
-  require(dismo)
 })
 rm(list = ls())
 
