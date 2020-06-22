@@ -1,12 +1,11 @@
 # Tanzania GS/MS-L3 land cover/use (LCU) data
 # M. Walsh, June 2020
 
-# install.packages(c("downloader","rgdal","raster","cba")), dependencies=T)
+# install.packages(c("downloader","rgdal","raster")), dependencies=T)
 suppressPackageStartupMessages({
   require(downloader)
   require(rgdal)
   require(raster)
-  require(cba)
 })
 rm(list = ls())
 
@@ -20,6 +19,7 @@ dir.create("Results", showWarnings = F)
 download("https://osf.io/njxrk/?raw=1", "TZ_crop_systems.csv.zip", mode="wb")
 unzip("TZ_crop_systems.csv.zip", overwrite=T)
 msdat <- read.table("TZ_crop_systems.csv", header=T, sep=",")
+msdat$div <- rowSums(msdat[,6:10]) ## crop diversity index
 
 # download GADM-L3 shapefile (courtesy: http://www.gadm.org)
 download("https://www.dropbox.com/s/bhefsc8u120uqwp/TZA_adm3.zip?raw=1", "TZA_adm3.zip", mode = "wb")
@@ -52,10 +52,6 @@ projection(msdat) <- projection(grids)
 msdatgrid <- extract(grids, msdat)
 msdat <- as.data.frame(cbind(msdat, msdatgrid)) 
 
-# Categorical clustering with ROCK <cba> ----------------------------------
-rockc <- rockCluster(as.matrix(msdat[,8:24]), 4)
-msdat <- cbind(msdat,rockc$cl)
-
 # Write output files ------------------------------------------------------
-write.csv(msdat, "./Results/TZ_msdat.csv", row.names = F)
+write.csv(msdat, "./Results/TZ_mssys.csv", row.names = F)
 
