@@ -1,11 +1,12 @@
 # Tanzania GS/MS-L3 land cover/use (LCU) data
 # M. Walsh, June 2020
 
-# install.packages(c("downloader","rgdal","raster")), dependencies=T)
+# install.packages(c("downloader","rgdal","raster","cba")), dependencies=T)
 suppressPackageStartupMessages({
   require(downloader)
   require(rgdal)
   require(raster)
+  require(cba)
 })
 rm(list = ls())
 
@@ -16,9 +17,9 @@ setwd("./TZ_L3")
 dir.create("Results", showWarnings = F)
 
 # MobileSurvey data
-download("https://osf.io/t6h97/?raw=1", "TZ_crop_scout_2019.csv.zip", mode="wb")
-unzip("TZ_crop_scout_2019.csv.zip", overwrite=T)
-msdat <- read.table("TZ_crop_scout_2019.csv", header=T, sep=",")
+download("https://osf.io/njxrk/?raw=1", "TZ_crop_systems.csv.zip", mode="wb")
+unzip("TZ_crop_systems.csv.zip", overwrite=T)
+msdat <- read.table("TZ_crop_systems.csv", header=T, sep=",")
 
 # download GADM-L3 shapefile (courtesy: http://www.gadm.org)
 download("https://www.dropbox.com/s/bhefsc8u120uqwp/TZA_adm3.zip?raw=1", "TZA_adm3.zip", mode = "wb")
@@ -50,6 +51,10 @@ projection(msdat) <- projection(grids)
 # extract gridded variables at MobileSurvey locations
 msdatgrid <- extract(grids, msdat)
 msdat <- as.data.frame(cbind(msdat, msdatgrid)) 
+
+# Categorical clustering with ROCK <cba> ----------------------------------
+rockc <- rockCluster(as.matrix(msdat[,8:24]), 4)
+msdat <- cbind(msdat,rockc$cl)
 
 # Write output files ------------------------------------------------------
 write.csv(msdat, "./Results/TZ_msdat.csv", row.names = F)
