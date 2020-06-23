@@ -51,9 +51,9 @@ msos$score1 <- fitted(py1)
 write.csv(msos, "./Results/msos_2019.csv", row.names=F)
 
 # Receiver-operator characteristics ---------------------------------------
-p <- msos[ which(msos$ctype=="cep" & msos$py==1), ] ## substitute other crop types here (lep, rop ...)
-p <- p[,11]
-a <- msos[ which(msos$ctype=="cep" & msos$py==0), ] ## substitute other crop types here (lep, rop ...)
-a <- a[,11]
-e <- evaluate(p=p, a=a) ## calculate ROC's on entire MobileSurvey dataset
+p <- msos[ which(msos$py==1), ]
+p <- p[,11] ## score0 (model is py0)
+a <- msos[ which(msos$py==0), ]
+a <- a[,11] ## score0 (model is py0)
+e <- evaluate(p=p, a=a) ## calculate ROC
 plot(e, 'ROC') ## plot ROC curve
