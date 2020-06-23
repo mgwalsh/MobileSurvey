@@ -56,3 +56,14 @@ msdat <- as.data.frame(cbind(msdat, msdatgrid))
 # Write output files ------------------------------------------------------
 write.csv(msdat, "./Results/TZ_msdat.csv", row.names = F)
 
+# <alluvial> diagram ------------------------------------------------------
+require(alluvial)
+
+# Cropping systems frequency table
+crpsys <- as.data.frame(table(msdat$cep, msdat$lep, msdat$rop, msdat$ocp, msdat$lsp))
+colnames(crpsys) <- c("Cereals","Legumes","Root crops","Other crops", "Livestock","Freq")
+
+# main cropland systems
+alluvial(crpsys[,1:5], freq=crpsys$Freq, border=NA,
+         hide = crpsys$Freq < 100,
+         col=ifelse(crpsys$Cereals == "Y", "dark green", "gray"))
