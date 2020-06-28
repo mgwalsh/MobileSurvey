@@ -1,7 +1,6 @@
 # Tanzania GS/MS-L3 cropping systems mixed models
-# M. Walsh, December 2019
+# M. Walsh, December 2020
 
-# install.packages(c("downloader","rgdal","raster","arm","dismo")), dependencies=T)
 suppressPackageStartupMessages({
   require(downloader)
   require(rgdal)
@@ -12,11 +11,6 @@ suppressPackageStartupMessages({
 rm(list = ls())
 
 # Data downloads -----------------------------------------------------------
-# Create a data folder in your current working directory
-dir.create("TZ_L3", showWarnings=F)
-setwd("./TZ_L3")
-dir.create("Results", showWarnings = F)
-
 # MobileSurvey data (long format)
 download("https://osf.io/4vrq3?raw=1", "TZ_mspreds.csv.zip", mode="wb")
 unzip("TZ_mspreds.csv.zip", overwrite=T)
